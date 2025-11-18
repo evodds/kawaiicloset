@@ -2,277 +2,860 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Kawaii Closet</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css" />
+    <style>
+      :root {
+        --rose-50: #fff3f8;
+        --rose-100: #ffe1ee;
+        --rose-200: #ffc2db;
+        --rose-400: #ff5fac;
+        --rose-500: #f44296;
+        --rose-600: #cf1d6f;
+        --slate-50: #f8fafc;
+        --slate-100: #f1f5f9;
+        --slate-300: #cbd5f5;
+        --slate-500: #64748b;
+        --slate-700: #2f2a38;
+        --text: #1f1724;
+        --muted: #6b7280;
+        font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        color: var(--text);
+        background: white;
+      }
+
+      *, *::before, *::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: white;
+        color: var(--text);
+      }
+
+      img {
+        max-width: 100%;
+        display: block;
+      }
+
+      .shell {
+        width: min(1100px, 100%);
+        margin: 0 auto;
+        padding: 0 32px;
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border-radius: 999px;
+        border: 1px solid var(--rose-100);
+        padding: 6px 16px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--muted);
+        background: white;
+      }
+
+      .pill.primary {
+        background: var(--rose-600);
+        color: white;
+        border: none;
+        box-shadow: 0 4px 15px rgba(207, 29, 111, 0.25);
+      }
+
+      .pill.secondary {
+        background: rgba(255, 255, 255, 0.8);
+        border: none;
+        color: var(--rose-600);
+      }
+
+      .announcement {
+        background: var(--rose-100);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      }
+
+      .announcement .shell {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 32px;
+        flex-wrap: wrap;
+      }
+
+      .countdown-display {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 0.95rem;
+        font-weight: 600;
+      }
+
+      .countdown-display .timer-unit {
+        background: white;
+        border-radius: 18px;
+        padding: 10px 14px;
+        min-width: 60px;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      }
+
+      .countdown-display small {
+        display: block;
+        margin-top: 4px;
+        font-size: 0.7rem;
+        font-weight: 500;
+        color: var(--muted);
+      }
+
+      .countdown-display span.value {
+        font-size: 1.15rem;
+        font-weight: 700;
+      }
+
+      .announcement button {
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        background: var(--rose-500);
+        color: white;
+        border-radius: 999px;
+        padding: 8px 18px;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        cursor: pointer;
+      }
+
+      .main-nav {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        backdrop-filter: blur(12px);
+        background: rgba(255, 255, 255, 0.9);
+        border-bottom: 1px solid var(--rose-100);
+      }
+
+      .main-nav .shell {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        height: 96px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .brand-avatar {
+        width: 52px;
+        height: 52px;
+        border-radius: 18px;
+        background: var(--rose-100);
+        color: var(--rose-600);
+        display: grid;
+        place-items: center;
+        font-weight: 700;
+        font-size: 1.1rem;
+      }
+
+      .brand-text p {
+        margin: 0;
+      }
+
+      .brand-text .title {
+        font-weight: 600;
+        color: var(--text);
+      }
+
+      .brand-text .subtitle {
+        color: var(--muted);
+        font-size: 0.85rem;
+      }
+
+      .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 18px;
+        margin: 0;
+        padding: 0;
+        flex: 1;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: var(--muted);
+        font-weight: 500;
+        font-size: 0.95rem;
+      }
+
+      .nav-links a:hover {
+        color: var(--rose-600);
+      }
+
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .nav-actions input {
+        border: 1px solid var(--rose-100);
+        border-radius: 999px;
+        padding: 10px 16px;
+        width: 200px;
+      }
+
+      .icon-buttons {
+        display: flex;
+        gap: 8px;
+      }
+
+      .icon-buttons button {
+        position: relative;
+        border: 1px solid var(--rose-100);
+        border-radius: 999px;
+        background: white;
+        padding: 8px;
+        font-size: 1rem;
+        cursor: pointer;
+      }
+
+      .icon-buttons button span.count {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background: var(--rose-500);
+        color: white;
+        font-size: 0.65rem;
+        padding: 2px 5px;
+        border-radius: 999px;
+      }
+
+      .btn-primary {
+        background: var(--rose-500);
+        color: white;
+        border: none;
+        border-radius: 999px;
+        padding: 12px 20px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      main {
+        background: linear-gradient(180deg, var(--rose-50), white 18%, white);
+        padding-bottom: 64px;
+      }
+
+      .hero {
+        margin-top: 48px;
+        background: linear-gradient(135deg, #fadbef, #ffffff 70%);
+        border-radius: 32px;
+        padding: 48px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 48px;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.8rem, 4vw, 3.6rem);
+        font-family: "Poppins", sans-serif;
+        margin: 16px 0 24px;
+        line-height: 1.1;
+      }
+
+      .hero h1 span {
+        color: var(--rose-600);
+      }
+
+      .hero p {
+        margin: 0 0 24px;
+        color: var(--muted);
+        font-size: 1.05rem;
+        line-height: 1.6;
+      }
+
+      .hero-cta {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 32px;
+      }
+
+      .metrics {
+        display: flex;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+
+      .metrics article h3 {
+        margin: 0;
+        font-size: 1.6rem;
+        color: var(--rose-600);
+      }
+
+      .hero-image {
+        position: relative;
+      }
+
+      .hero-image img {
+        width: 100%;
+        height: 500px;
+        border-radius: 24px;
+        object-fit: cover;
+      }
+
+      .hero-label {
+        position: absolute;
+        top: 32px;
+        right: 32px;
+        background: white;
+        border-radius: 16px;
+        padding: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      }
+
+      .hero-label span {
+        display: block;
+        color: var(--rose-600);
+        font-weight: 600;
+        font-size: 1rem;
+      }
+
+      .category-tabs {
+        margin: 48px auto 24px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .tab-row {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .tab-row button {
+        border-radius: 999px;
+        border: 1px solid var(--rose-100);
+        background: white;
+        padding: 10px 18px;
+        font-weight: 600;
+        color: var(--muted);
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .tab-row button.active {
+        background: var(--rose-600);
+        color: white;
+        border-color: transparent;
+        box-shadow: 0 6px 16px rgba(244, 66, 150, 0.35);
+      }
+
+      .sorting select {
+        border-radius: 14px;
+        border: 1px solid var(--rose-100);
+        padding: 10px 16px;
+      }
+
+      section.products, section.best-sellers {
+        margin: 0 auto 48px;
+      }
+
+      section.products header, section.best-sellers header {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 24px;
+      }
+
+      section.products header h2,
+      section.best-sellers header h2 {
+        margin: 8px 0 4px;
+      }
+
+      .products-grid, .best-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 24px;
+      }
+
+      .product-card {
+        border: 1px solid var(--rose-100);
+        border-radius: 24px;
+        overflow: hidden;
+        background: white;
+        min-height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .product-card.highlight {
+        border: none;
+        box-shadow: 0 24px 60px rgba(244, 66, 150, 0.18);
+      }
+
+      .product-card img {
+        width: 100%;
+        height: 240px;
+        object-fit: cover;
+      }
+
+      .card-body {
+        padding: 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .card-body h3 {
+        margin: 0;
+        font-size: 1rem;
+      }
+
+      .card-body p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      .card-meta {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.9rem;
+        margin-top: 8px;
+      }
+
+      .card-meta .price {
+        color: var(--rose-600);
+        font-weight: 600;
+      }
+
+      .best-sellers header .pill-group {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .cta {
+        margin: 64px auto;
+        padding: 48px;
+        border-radius: 32px;
+        background: linear-gradient(135deg, #ffe6f2, #ffd7eb);
+        text-align: center;
+      }
+
+      .cta form {
+        margin-top: 24px;
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .cta input {
+        border-radius: 999px;
+        border: 1px solid var(--rose-100);
+        padding: 12px 18px;
+        width: min(320px, 80vw);
+      }
+
+      footer {
+        border-top: 1px solid var(--rose-100);
+        padding: 40px 0;
+        background: white;
+      }
+
+      .footer-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 24px;
+      }
+
+      footer ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      footer a {
+        text-decoration: none;
+        color: var(--muted);
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      footer a:hover {
+        color: var(--rose-600);
+      }
+
+      footer p {
+        margin: 4px 0;
+        color: var(--muted);
+      }
+
+      .footer-note {
+        text-align: center;
+        margin-top: 24px;
+        font-size: 0.9rem;
+      }
+
+      @media (max-width: 960px) {
+        .nav-links {
+          display: none;
+        }
+
+        .nav-actions input {
+          display: none;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .hero {
+          padding: 28px;
+        }
+
+        .announcement .shell {
+          justify-content: flex-start;
+        }
+
+        .tab-row button,
+        .sorting select {
+          width: 100%;
+        }
+      }
+    </style>
   </head>
   <body>
     <header class="announcement">
-      <div class="container">
-        <span>Free Shipping on Orders Over $100</span>
-        <button>Learn More</button>
+      <div class="shell">
+        <div class="countdown-display">
+          <span>?? Flash Sale Ends In:</span>
+          <div class="timer-unit">
+            <span id="hours" class="value">12</span>
+            <small>Hours</small>
+          </div>
+          <span>:</span>
+          <div class="timer-unit">
+            <span id="minutes" class="value">31</span>
+            <small>Min</small>
+          </div>
+          <span>:</span>
+          <div class="timer-unit">
+            <span id="seconds" class="value">15</span>
+            <small>Sec</small>
+          </div>
+        </div>
+        <button type="button">Fill your cart today</button>
       </div>
     </header>
 
-    <nav class="top-nav">
-      <div class="container">
+    <nav class="main-nav">
+      <div class="shell">
         <div class="brand">
-          <img src="https://dummyimage.com/48x48/ffbadd/ffffff&text=KC" alt="Kawaii Closet logo" />
-          <div>
-            <p class="brand-name">Kawaii Closet</p>
-            <p class="brand-tagline">Modern Apparel Store</p>
+          <div class="brand-avatar">KC</div>
+          <div class="brand-text">
+            <p class="title">Kawaii Closet</p>
+            <p class="subtitle">Modern Apparel Store</p>
           </div>
         </div>
+
         <ul class="nav-links">
           <li><a href="#">New Arrivals</a></li>
           <li><a href="#">Clothing</a></li>
           <li><a href="#">Shoes</a></li>
           <li><a href="#">Accessories</a></li>
-          <li><a href="#">Shop</a></li>
+          <li><a href="#">Collections</a></li>
         </ul>
-        <div class="actions">
+
+        <div class="nav-actions">
           <input type="search" placeholder="Search" />
-          <div class="icon-set">
-            <span>💬</span>
-            <span>❤️</span>
-            <span class="cart">
-              🛒
-              <small>3</small>
-            </span>
+          <div class="icon-buttons">
+            <button aria-label="Messages">??</button>
+            <button aria-label="Wishlist">?</button>
+            <button aria-label="Cart">
+              ??
+              <span class="count">3</span>
+            </button>
           </div>
-          <button class="primary">Login</button>
+          <button class="btn-primary">Login</button>
         </div>
       </div>
     </nav>
 
     <main>
-      <section class="hero container">
-        <div class="hero-content">
-          <span class="pill">New Arrival</span>
-          <h1>Dress in your dreamiest style</h1>
+      <section class="hero shell">
+        <div>
+          <span class="pill primary">New Spring Collection</span>
+          <h1>Dress in Your <span>Dreamiest</span> Style</h1>
           <p>
-            Discover curated looks designed for modern trendsetters. Mix, match,
-            and fall in love with new fits from Kawaii Closet.
+            Explore our kawaii collection of pastel tees and accessories. Each
+            piece is designed to bring joy and cuteness to your everyday
+            wardrobe!
           </p>
           <div class="hero-cta">
-            <button class="primary">Shop Now</button>
-            <button class="ghost">How it works</button>
+            <button class="btn-primary">Shop Collection ?</button>
+            <button class="pill">How it works</button>
           </div>
           <div class="metrics">
-            <div>
-              <h3>50k+</h3>
+            <article>
+              <h3>500+</h3>
+              <p>Cute Items</p>
+            </article>
+            <article>
+              <h3>10k+</h3>
               <p>Happy Customers</p>
-            </div>
-            <div>
+            </article>
+            <article>
               <h3>4.9</h3>
-              <p>Average Rating</p>
-            </div>
-            <div>
-              <h3>1.2k</h3>
-              <p>New Styles</p>
-            </div>
+              <p>Rating ?</p>
+            </article>
           </div>
         </div>
-        <div class="hero-card">
-          <div class="hero-badge">
-            <p>Dream Fit</p>
-            <span>Best Seller</span>
-          </div>
+        <div class="hero-image">
           <img
-            src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=700&q=80"
-            alt="Hero look"
+            src="https://www.figma.com/api/mcp/asset/4c170363-0213-4c2e-a8fe-97a788de5ee0"
+            alt="Model wearing deep red coat"
           />
-          <div class="hero-card-footer">
-            <div>
-              <p class="title">Autumn Layers</p>
-              <p class="price">$249</p>
-            </div>
-            <button>View</button>
+          <div class="hero-label">
+            <p>Limited Edition</p>
+            <span>25% OFF</span>
           </div>
         </div>
       </section>
 
-      <section class="filters container">
-        <div class="tabs">
-          <button class="active">All</button>
-          <button>Women</button>
-          <button>Men</button>
-          <button>Kids</button>
+      <section class="category-tabs shell">
+        <div class="tab-row" role="tablist">
+          <button class="active" data-filter="all">? All</button>
+          <button data-filter="tees">?? Tees</button>
+          <button data-filter="accessories">?? Accessories</button>
+          <button data-filter="dresses">?? Dresses</button>
+          <button data-filter="outerwear">?? Outerwear</button>
         </div>
         <div class="sorting">
-          <span>Sort by</span>
-          <select>
-            <option>Popular</option>
-            <option>Newest</option>
-            <option>Price: Low to High</option>
-            <option>Price: High to Low</option>
-          </select>
+          <label>
+            Sort by
+            <select id="sortSelect">
+              <option value="popular">Popular</option>
+              <option value="newest">Newest</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+            </select>
+          </label>
         </div>
       </section>
 
-      <section class="product-grid container">
+      <section class="products shell" id="products">
         <header>
           <div>
-            <h2>New Collection</h2>
+            <span class="pill secondary">New In</span>
+            <h2>Fresh Arrivals</h2>
             <p>Hand-picked looks just dropped</p>
           </div>
-          <button class="ghost">View All</button>
+          <button class="pill">View All</button>
         </header>
-        <div class="grid">
-          <article class="product-card highlight">
+        <div class="products-grid">
+          <article class="product-card highlight" data-category="outerwear" data-price="159">
             <img
-              src="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=600&q=80"
-              alt="Soft Tote"
+              src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=800&q=80"
+              alt="Fleece combo"
             />
-            <div class="badge">New</div>
             <div class="card-body">
-              <h3>Soft Tote Bag</h3>
-              <p class="price">$89.00</p>
-              <p class="rating">⭐ 4.9 (2.5k)</p>
+              <h3>Fleece Combo Essentials</h3>
+              <p>Soft-touch sweatshirt + graphic tee</p>
+              <div class="card-meta">
+                <span class="price">$159</span>
+                <span>? 4.9 (1.8k)</span>
+              </div>
             </div>
           </article>
-          <article class="product-card">
+
+          <article class="product-card" data-category="tees" data-price="59">
             <img
-              src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=600&q=80"
-              alt="Minimal Backpack"
+              src="https://images.unsplash.com/photo-1484519332611-516457305ff6?auto=format&fit=crop&w=700&q=80"
+              alt="Cloud white tee"
             />
             <div class="card-body">
-              <h3>Minimal Backpack</h3>
-              <p class="price">$119.00</p>
-              <p class="rating">⭐ 4.8 (1.1k)</p>
+              <h3>Cloud White Organic Tee</h3>
+              <p>Everyday staple with pastel trims</p>
+              <div class="card-meta">
+                <span class="price">$59</span>
+                <span>? 4.8 (2.4k)</span>
+              </div>
             </div>
           </article>
-          <article class="product-card">
+
+          <article class="product-card" data-category="dresses" data-price="189">
             <img
-              src="https://images.unsplash.com/photo-1518544889280-37f4ca38e4d0?auto=format&fit=crop&w=600&q=80"
-              alt="Draped Dress"
+              src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=700&q=80"
+              alt="Monochrome dress"
             />
             <div class="card-body">
-              <h3>Draped Dress</h3>
-              <p class="price">$159.00</p>
-              <p class="rating">⭐ 5.0 (982)</p>
+              <h3>Monochrome Midi Dress</h3>
+              <p>Fluid satin silhouette</p>
+              <div class="card-meta">
+                <span class="price">$189</span>
+                <span>? 4.9 (3.1k)</span>
+              </div>
             </div>
           </article>
-          <article class="product-card">
+
+          <article class="product-card" data-category="outerwear" data-price="219">
             <img
-              src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=600&q=80"
-              alt="Satin Blouse"
+              src="https://images.unsplash.com/photo-1475180098004-ca77a66827be?auto=format&fit=crop&w=700&q=80"
+              alt="Pleated dream dress"
             />
             <div class="card-body">
-              <h3>Satin Blouse</h3>
-              <p class="price">$105.00</p>
-              <p class="rating">⭐ 4.7 (1.8k)</p>
+              <h3>Pleated Dream Dress</h3>
+              <p>Movement-ready pastel pleats</p>
+              <div class="card-meta">
+                <span class="price">$219</span>
+                <span>? 4.9 (850)</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card" data-category="accessories" data-price="59">
+            <img
+              src="https://images.unsplash.com/photo-1487412720507-ee78c924ef0c?auto=format&fit=crop&w=700&q=80"
+              alt="Silk scarf"
+            />
+            <div class="card-body">
+              <h3>Silk Love Scarf</h3>
+              <p>Hand-rolled edges, airy silk</p>
+              <div class="card-meta">
+                <span class="price">$59</span>
+                <span>? 4.7 (1.1k)</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card" data-category="outerwear" data-price="139">
+            <img
+              src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=700&q=80"
+              alt="Rose knit sweater"
+            />
+            <div class="card-body">
+              <h3>Rose Knit Sweater</h3>
+              <p>Cozy mohair blend warmth</p>
+              <div class="card-meta">
+                <span class="price">$139</span>
+                <span>? 5.0 (2.8k)</span>
+              </div>
             </div>
           </article>
         </div>
       </section>
 
-      <section class="best-sellers container">
+      <section class="best-sellers shell" id="best">
         <header>
           <div>
-            <p>Best Sellers</p>
-            <h2>They can’t get enough</h2>
+            <span class="pill secondary">Best Sellers</span>
+            <h2>They can�t get enough</h2>
+            <p>Community favorites on heavy rotation</p>
           </div>
-          <div class="pills">
+          <div class="pill-group">
             <button class="pill active">Outerwear</button>
             <button class="pill">Dresses</button>
             <button class="pill">Accessories</button>
           </div>
         </header>
-        <div class="grid">
-          <article class="product-card">
+        <div class="best-grid">
+          <article class="product-card" data-price="249">
             <img
-              src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=600&q=80"
-              alt="Cashmere Coat"
-            />
-            <div class="card-body">
-              <h3>Cashmere Coat</h3>
-              <p class="price">$249</p>
-              <p class="rating">⭐ 4.9 (3.6k)</p>
-            </div>
-          </article>
-          <article class="product-card">
-            <img
-              src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=80"
-              alt="Black Dress"
-            />
-            <div class="card-body">
-              <h3>Black Slip Dress</h3>
-              <p class="price">$189</p>
-              <p class="rating">⭐ 4.9 (2.1k)</p>
-            </div>
-          </article>
-          <article class="product-card">
-            <img
-              src="https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?auto=format&fit=crop&w=600&q=80"
-              alt="Sheer Top"
+              src="https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?auto=format&fit=crop&w=700&q=80"
+              alt="Sheer top"
             />
             <div class="card-body">
               <h3>Sheer Pastel Top</h3>
-              <p class="price">$129</p>
-              <p class="rating">⭐ 4.8 (1.4k)</p>
+              <div class="card-meta">
+                <span class="price">$129</span>
+                <span>? 4.8 (1.4k)</span>
+              </div>
             </div>
           </article>
-          <article class="product-card">
+          <article class="product-card" data-price="249">
             <img
-              src="https://images.unsplash.com/photo-1475180098004-ca77a66827be?auto=format&fit=crop&w=600&q=80"
-              alt="Pleated Dress"
+              src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=700&q=80"
+              alt="Cashmere coat"
+            />
+            <div class="card-body">
+              <h3>Cashmere Coat</h3>
+              <div class="card-meta">
+                <span class="price">$249</span>
+                <span>? 4.9 (3.6k)</span>
+              </div>
+            </div>
+          </article>
+          <article class="product-card" data-price="189">
+            <img
+              src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=700&q=80"
+              alt="Black slip dress"
+            />
+            <div class="card-body">
+              <h3>Black Slip Dress</h3>
+              <div class="card-meta">
+                <span class="price">$189</span>
+                <span>? 4.9 (2.1k)</span>
+              </div>
+            </div>
+          </article>
+          <article class="product-card" data-price="219">
+            <img
+              src="https://images.unsplash.com/photo-1475180098004-ca77a66827be?auto=format&fit=crop&w=700&q=80"
+              alt="Pleated dream dress"
             />
             <div class="card-body">
               <h3>Pleated Dream Dress</h3>
-              <p class="price">$219</p>
-              <p class="rating">⭐ 4.9 (850)</p>
-            </div>
-          </article>
-          <article class="product-card">
-            <img
-              src="https://images.unsplash.com/photo-1487412720507-ee78c924ef0c?auto=format&fit=crop&w=600&q=80"
-              alt="Silk Scarf"
-            />
-            <div class="card-body">
-              <h3>Silk Love Scarf</h3>
-              <p class="price">$59</p>
-              <p class="rating">⭐ 4.7 (1.1k)</p>
-            </div>
-          </article>
-          <article class="product-card">
-            <img
-              src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=600&q=80"
-              alt="Knit Sweater"
-            />
-            <div class="card-body">
-              <h3>Rose Knit Sweater</h3>
-              <p class="price">$139</p>
-              <p class="rating">⭐ 5.0 (2.8k)</p>
+              <div class="card-meta">
+                <span class="price">$219</span>
+                <span>? 4.9 (850)</span>
+              </div>
             </div>
           </article>
         </div>
       </section>
 
-      <section class="cta container">
-        <div>
-          <p class="pill secondary">Join the Club</p>
-          <h2>Get exclusive drops & limited collaborations</h2>
-          <p>Sign up to receive early-access invites and curated inspiration.</p>
-          <form>
-            <input type="email" placeholder="Enter your email" />
-            <button class="primary">Subscribe</button>
-          </form>
-        </div>
+      <section class="cta shell">
+        <p class="pill secondary">Join the Club</p>
+        <h2>Get exclusive drops & limited collaborations</h2>
+        <p>Sign up for early-access invites and curated inspiration.</p>
+        <form>
+          <input type="email" placeholder="Enter your email" required />
+          <button class="btn-primary" type="submit">Subscribe</button>
+        </form>
       </section>
     </main>
 
     <footer>
-      <div class="container footer-grid">
+      <div class="shell footer-grid">
         <div>
-          <p class="brand-name">Kawaii Closet</p>
-          <p class="brand-tagline">Dreamier fits every day.</p>
+          <p class="title">Kawaii Closet</p>
+          <p>Dreamier fits every day.</p>
+        </div>
+        <div>
+          <h4>Shop</h4>
+          <ul>
+            <li><a href="#">New Arrivals</a></li>
+            <li><a href="#">Outerwear</a></li>
+            <li><a href="#">Dresses</a></li>
+          </ul>
         </div>
         <div>
           <h4>Help</h4>
@@ -283,23 +866,72 @@
           </ul>
         </div>
         <div>
-          <h4>Company</h4>
+          <h4>About</h4>
           <ul>
-            <li><a href="#">About</a></li>
+            <li><a href="#">Our Story</a></li>
             <li><a href="#">Careers</a></li>
             <li><a href="#">Press</a></li>
           </ul>
         </div>
-        <div>
-          <h4>Social</h4>
-          <ul>
-            <li><a href="#">Instagram</a></li>
-            <li><a href="#">Pinterest</a></li>
-            <li><a href="#">TikTok</a></li>
-          </ul>
-        </div>
       </div>
-      <p class="copyright">© 2025 Kawaii Closet. All rights reserved.</p>
+      <p class="footer-note">� 2025 Kawaii Closet. All rights reserved.</p>
     </footer>
+
+    <script>
+      const targetDate = new Date();
+      targetDate.setHours(targetDate.getHours() + 12);
+      targetDate.setMinutes(targetDate.getMinutes() + 31);
+      targetDate.setSeconds(targetDate.getSeconds() + 15);
+
+      const hoursEl = document.getElementById("hours");
+      const minutesEl = document.getElementById("minutes");
+      const secondsEl = document.getElementById("seconds");
+
+      function updateCountdown() {
+        const now = new Date();
+        const diff = Math.max(targetDate - now, 0);
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff / (1000 * 60)) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+        hoursEl.textContent = String(hours).padStart(2, "0");
+        minutesEl.textContent = String(minutes).padStart(2, "0");
+        secondsEl.textContent = String(seconds).padStart(2, "0");
+      }
+
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+
+      const tabs = document.querySelectorAll(".tab-row button");
+      const productCards = document.querySelectorAll(".products-grid .product-card");
+
+      tabs.forEach((tab) => {
+        tab.addEventListener("click", () => {
+          tabs.forEach((btn) => btn.classList.remove("active"));
+          tab.classList.add("active");
+          const filter = tab.dataset.filter;
+          productCards.forEach((card) => {
+            if (filter === "all" || card.dataset.category === filter) {
+              card.style.display = "flex";
+            } else {
+              card.style.display = "none";
+            }
+          });
+        });
+      });
+
+      document.getElementById("sortSelect").addEventListener("change", (event) => {
+        const value = event.target.value;
+        const cardsArray = Array.from(productCards);
+        cardsArray.sort((a, b) => {
+          const priceA = Number(a.dataset.price);
+          const priceB = Number(b.dataset.price);
+          if (value === "price-asc") return priceA - priceB;
+          if (value === "price-desc") return priceB - priceA;
+          return 0;
+        });
+        const grid = document.querySelector(".products-grid");
+        cardsArray.forEach((card) => grid.appendChild(card));
+      });
+    </script>
   </body>
 </html>
